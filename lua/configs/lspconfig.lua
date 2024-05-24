@@ -22,3 +22,42 @@ end
 --   on_init = nvlsp.on_init,
 --   capabilities = nvlsp.capabilities,
 -- }
+
+-- typescript
+lspconfig.tsserver.setup {
+  on_attach = on_attach,
+  on_init = on_init,
+  capabilities = capabilities,
+}
+
+lspconfig.clangd.setup {
+  on_attach = function (client, bufnr)
+    client.server_capabilities.signatureHelpProvider = false
+    on_attach(client, bufnr)
+  end,
+  capabilities = capabilities,
+}
+
+-- Vue language options (volar)
+lspconfig.volar.setup {
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' }
+}
+
+-- rust
+lspconfig.rust_analyzer.setup({
+  on_attach = on_attach;
+  capabilities = capabilities,
+  filetypes = {"rust"},
+  settings = {
+    ['rust-analyzer'] = {
+      cargo = { allFeatures = true, }
+    }
+  }
+})
+
+--python
+lspconfig.pyright.setup({
+  on_attach = on_attach;
+  capabilities = capabilities,
+  filetypes = {"python"},
+})
