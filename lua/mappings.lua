@@ -4,7 +4,7 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
-map("n", ";", ":", { desc = "CMD enter command mode" })
+-- map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
 vim.opt.colorcolumn = "80"
@@ -38,7 +38,7 @@ function close_quickfix_if_open()
 end
 
 -- Map F5 to toggle the quickfix list
-vim.api.nvim_set_keymap('n', '<F5>', '<cmd>lua ToggleQuickfix()<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<F5>', '<cmd>lua ToggleQuickfix()<CR>', { noremap = true, silent = true })
 
 -- Define a function to execute the build process
 function build_and_compile()
@@ -48,11 +48,12 @@ function build_and_compile()
     local build_dir = handle:read("*a")
     handle:close()
     build_dir = string.gsub(build_dir, "\n", "") -- Remove newline character from output
+    build_dir = build_dir .. "/Debug"
 
     vim.cmd('!mkdir -p build') -- Create the "build" directory
     vim.cmd('lcd ' .. build_dir)
 
-    vim.cmd('!cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .. ') -- Run CMake and build
+    vim.cmd('!cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ../.. ') -- Run CMake and build
     vim.cmd('lcd ' .. original_dir)
 end
 
@@ -67,6 +68,7 @@ function build_and_compile_without_configure()
     local build_dir = handle:read("*a")
     handle:close()
     build_dir = string.gsub(build_dir, "\n", "") -- Remove newline character from output
+    build_dir = build_dir .. "/Debug"
 
     -- Change directory to the found build directory if it exists
     if build_dir ~= "" then
