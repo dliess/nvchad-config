@@ -7,13 +7,39 @@ local map = vim.keymap.set
 -- map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
-vim.opt.colorcolumn = "80"
 
 vim.api.nvim_set_keymap('n', '<C-Left>', '<C-W>h', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-Down>', '<C-W>j', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-Up>', '<C-W>k', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-Right>', '<C-W>l', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>o', ':ClangdSwitchSourceHeader<CR>', { noremap = true, silent = true })
+
+function CloseUnmodifiedBuffersExceptActive()
+    -- Step 1: Get a list of all buffers that are currently displayed in windows
+    local active_buffers = {}
+    local windows = vim.api.nvim_list_wins()  -- Get all windows
+    for _, win in ipairs(windows) do
+        local buf = vim.api.nvim_win_get_buf(win)  -- Get the buffer in this window
+        active_buffers[buf] = true  -- Mark this buffer as active (visible in a window)
+    end
+
+    -- Step 2: Get a list of all buffers in Neovim
+    local all_buffers = vim.api.nvim_list_bufs()
+
+    -- Step 3: Loop through all buffers
+    for _, buf in ipairs(all_buffers) do
+        local is_modified = vim.api.nvim_get_option_value('modified', { buf = buf })
+
+        -- If the buffer is not in the list of active buffers and is not modified, delete it
+        if not active_buffers[buf] and not is_modified then
+            vim.api.nvim_buf_delete(buf, { force = true })
+        end
+    end
+end
+
+vim.api.nvim_set_keymap('n', '<leader>kb', ':lua CloseUnmodifiedBuffersExceptActive()<CR>', { noremap = true, silent = true })
+
+
 
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 
@@ -123,17 +149,6 @@ vim.keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_gre
 vim.keymap.set('i', 'kj', '<Esc>', { noremap = true })
 vim.keymap.set('v', 'kj', '<Esc>', { noremap = true })
 
-vim.wo.relativenumber = true
 
-vim.wo.foldmethod = "expr"
-vim.wo.foldexpr = 'nvim_treesitter#foldexpr()' -- use treesitter for folding
-vim.wo.foldtext = 'v:lua.vim.treesitter.foldtext()'
-vim.wo.fillchars = "fold: "
-vim.wo.foldlevel = 99
-
--- Set the default tab behavior in insert mode to insert 4 spaces
-vim.opt.tabstop = 3
-vim.opt.softtabstop = 3
-vim.opt.shiftwidth = 3
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
