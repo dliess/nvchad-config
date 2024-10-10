@@ -13,6 +13,8 @@ vim.api.nvim_set_keymap('n', '<C-Down>', '<C-W>j', { noremap = true, silent = tr
 vim.api.nvim_set_keymap('n', '<C-Up>', '<C-W>k', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-Right>', '<C-W>l', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>o', ':ClangdSwitchSourceHeader<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '[c', ':Gitsigns next_hunk<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', ']c', ':Gitsigns prev_hunk<CR>', { noremap = true, silent = true })
 
 function CloseUnmodifiedBuffersExceptActive()
     -- Step 1: Get a list of all buffers that are currently displayed in windows
