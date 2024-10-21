@@ -24,14 +24,6 @@ lspconfig.ts_ls.setup {
 }
 
 lspconfig.clangd.setup {
-  handlers = {
-      ["textDocument/sinatureHelp"] = function() end
-  },
-  on_attach = function (client, bufnr)
-    client.server_capabilities.signatureHelpProvider = false -- this doesn't work
-    on_attach(client, bufnr)
-  end,
-  capabilities = capabilities,
 }
 
 -- Vue language options (volar)
