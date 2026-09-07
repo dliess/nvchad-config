@@ -12,7 +12,7 @@ vim.api.nvim_set_keymap('n', '<C-Left>', '<C-W>h', { noremap = true, silent = tr
 vim.api.nvim_set_keymap('n', '<C-Down>', '<C-W>j', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-Up>', '<C-W>k', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-Right>', '<C-W>l', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>o', ':ClangdSwitchSourceHeader<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>o', ':LspClangdSwitchSourceHeader<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '[c', ':Gitsigns next_hunk<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', ']c', ':Gitsigns prev_hunk<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>ph', ':Gitsigns preview_hunk_inline<CR>', { noremap = true, silent = true })
